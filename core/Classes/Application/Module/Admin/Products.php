@@ -96,42 +96,6 @@ class Products extends Base
 		{
 			$this->application->bll->products->removeProductImage($productId, $categoryId, $oldImage);
 			$this->application->bll->products->addProductImage($productId, $categoryId, $hasImage, $_FILES['image']['tmp_name']);
-
-			$size = getimagesize($_FILES['image']['tmp_name']);
-
-			$settings = array(
-				'crop_method' => 1,
-				'width' => $size[0],
-				'height' => $size[1],
-				'width_requested' => 100,
-				'height_requested' => 100,
-			);
-
-			$settingsSmall = array(
-				'crop_method' => 1,
-				'width' => $size[0],
-				'height' => $size[1],
-				'width_requested' => 300,
-				'height_requested' => 300,
-			);
-
-			$settingsBig = array(
-				'crop_method' => 1,
-				'width' => $size[0],
-				'height' => $size[1],
-				'width_requested' => 500,
-				'height_requested' => 500,
-			);
-
-			$imageFileName  = $categoryId . DIRECTORY_SEPARATOR . $productId % 100 . DIRECTORY_SEPARATOR . $hasImage % 100 . DIRECTORY_SEPARATOR . $hasImage;
-			$imageFileName  = $this->application->configuration->getRootPath() . 'data/static/upload/' . $imageFileName ;
-			$pathInfo   = pathinfo($imageFileName);
-			mkdir($pathInfo['dirname'], 0777, true);
-			move_uploaded_file($_FILES['image']['tmp_name'], $imageFileName. '.jpg');
-
-			ImgResizer::resize($imageFileName.'.jpg', $settings, $imageFileName. '_small.jpg');
-			ImgResizer::resize($imageFileName.'.jpg', $settingsSmall, $imageFileName. '_normal.jpg');
-			ImgResizer::resize($imageFileName.'.jpg', $settingsBig, $imageFileName. '_big.jpg');
 		}
 
 
@@ -145,7 +109,7 @@ class Products extends Base
 		$totalCount     = $this->application->bll->products->getCategoryProductsCount($categoryId);
 		$paging         = new Paging(
 			$this->application->request->getQueryParam('p', 1),
-			5,
+			9,
 			$totalCount,
 			$this->application
 		);

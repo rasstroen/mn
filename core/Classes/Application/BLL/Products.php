@@ -11,8 +11,8 @@ class Products extends BLL
 	private static $imageSizes = array(
 		self::IMAGE_SMALL => array(
 			'_small',
-			50,
-			50,
+			100,
+			100,
 		),
 		self::IMAGE_NORMAL => array(
 			'_normal',
